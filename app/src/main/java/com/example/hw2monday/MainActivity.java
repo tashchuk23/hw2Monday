@@ -102,37 +102,79 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        //do the switch statement to see if i can see the text of the textView
-        //(do buttons later)
+
+        //ADD CALL TO check if board is solved in every switch case
         switch(view.getId()) {
             case R.id.b1:
-               // textView.setText(R.string._1);
-                //controller.move(controller.randomBoard, 0,0);
-                //updateBoard()
-                //if (controller.checkAbove(0,0, controller.randomBoard)) {
-                //   buttonsArray[0][0].setText(controller.randomBoard[0][0]);
-                // }
-
+                controller.move(0,0);
+                updateButtons();
                 break;
             case R.id.b2:
-               // textView.setText(R.string._2);
+                controller.move(0,1);
+                updateButtons();
                 break;
             case R.id.b3:
-              //  textView.setText(R.string._3);
+                controller.move(0,2);
+                updateButtons();
+                break;
+            case R.id.b4:
+                controller.move(0,3);
+                updateButtons();
+                break;
+            case R.id.b5:
+                controller.move(1,0);
+                updateButtons();
+                break;
+            case R.id.b6:
+                controller.move(1,1);
+                updateButtons();
+                break;
+            case R.id.b7:
+                controller.move(1,2);
+                updateButtons();
+                break;
+            case R.id.b8:
+                controller.move(1,3);
+                updateButtons();
+                break;
+            case R.id.b9:
+                controller.move(2,0);
+                updateButtons();
+                break;
+            case R.id.b10:
+                controller.move(2,1);
+                updateButtons();
+                break;
+            case R.id.b11:
+                controller.move(2,2);
+                updateButtons();
+                break;
+            case R.id.b12:
+                controller.move(2,3);
+                updateButtons();
+                break;
+            case R.id.b13:
+                controller.move(3,0);
+                updateButtons();
+                break;
+            case R.id.b14:
+                controller.move(3,1);
+                updateButtons();
                 break;
             case R.id.b15:
-                //stpe 1: find the r c for b15
-                //step 2: call move(r,c)
                 controller.move(3,2);
-
-                //step 3: update buttons
                 updateButtons();
                 break;
             case R.id.bEmpty:
-              //  textView.setText(R.string.empty);
+                controller.move(3,3);
+                updateButtons();
                 break;
             case R.id.resetButton:
-               // updateBoard(controller, buttonsArray);
+                //fix reset, doesnt currently change the board
+                int[][] newBoard = new int[4][4];
+                newBoard = controller.buildBoard();
+                controller.randomBoard = newBoard;
+                updateButtons();
                 break;
         }
         }

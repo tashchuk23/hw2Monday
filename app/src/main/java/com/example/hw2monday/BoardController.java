@@ -53,7 +53,7 @@ public class BoardController {
 
         for (int r = 0; r < 4; r++){
             for (int c = 0; c < 4; c++){
-                int randomIndex = (int)Math.random() * randArrayList.size();
+                int randomIndex = (int) (Math.random() * randArrayList.size());
                 randomBoard[r][c] = randArrayList.get(randomIndex);
                 randArrayList.remove(randomIndex);
             }
