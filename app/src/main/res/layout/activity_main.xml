@@ -9,7 +9,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/resetButton"
@@ -17,21 +21,22 @@
             android:layout_height="wrap_content"
             android:text="@string/reset_board" />
 
-        <TextView
-            android:id="@+id/textToChange"
+        <Button
+            android:id="@+id/bWin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/text" />
+            android:text="@string/easy_win" />
 
         <TextView
             android:id="@+id/textTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/_15_squares_puzzle" />
+            android:text="@string/_15_squares_puzzle"
+            android:textSize="34sp" />
 
         <androidx.gridlayout.widget.GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:columnCount="4"
             app:rowCount="4">
 

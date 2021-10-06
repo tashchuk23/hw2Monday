@@ -2,24 +2,44 @@ package com.example.hw2monday;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+/*
+* HW 2, CS 301
+* @author Natalie Tashchuk
+* 10/5/2021
+*
+* This program creates a classic 15 squares puzzle using
+* 16 buttons in a grid layout. When the user places all the
+* buttons into the numerical order, with the blank in the
+* bottom right corner, the title changes to indicate they
+* have won they game.
+*
+* Thank you to Phoucan Nyugen for helping me think through the backend logic
+* (creating the random board and move methods), and Josh Henderson &
+* Dr Tribelhorn for helping me fix my many errors with Android Studio
+*
+ */
+
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-   // public TextView textView;
+
     public BoardController controller = new BoardController();  //could be the problem
     private  Button[][] buttonsArray;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttonsArray = new Button[4][4];
-
-       // textView = ;
+        buttonsArray = new Button[4][4];  //create array to store Buttons
 
         //create the buttons, assign to a findViewById
         Button b1 = (Button) findViewById(R.id.b1);
@@ -38,9 +58,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button b14 = (Button) findViewById(R.id.b14);
         Button b15 = (Button) findViewById(R.id.b15);
         Button bEmpty = (Button) findViewById(R.id.bEmpty);
+        Button resetButton = (Button) findViewById(R.id.resetButton);
+        Button easyWin = (Button) findViewById(R.id.bWin);
 
-
-        //couldn't instanitate array with for loops, had to do it manually
+        //instantiate the Button array with the newly created buttons
         buttonsArray[0][0] = b1;
         buttonsArray[0][1] = b2;
         buttonsArray[0][2] = b3;
@@ -58,12 +79,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonsArray[3][2] = b15;
         buttonsArray[3][3] = bEmpty;
 
-
-       updateButtons();
-
+        //set the text of each Button to the ints generated in buildBoard()
+        updateButtons();
 
         //setOnClickListeners for all buttons
-        //COULD BE the problem (the param)
         b1.setOnClickListener(this);
         b2.setOnClickListener(this);
         b3.setOnClickListener(this);
@@ -80,15 +99,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b14.setOnClickListener(this);
         b15.setOnClickListener(this);
         bEmpty.setOnClickListener(this);
-
+        resetButton.setOnClickListener(this);
+        easyWin.setOnClickListener(this);
     }
 
+    /* updateButtons()
+     * sets the text on each button to the values in the int array randomBoard
+     * values are generated in the buildBoard() function in boardController
+     * param: none
+     * return: void
+     */
     public void updateButtons(){
-        //sets the text on each button to what is in on randomBoard
+
         for (int c = 0; c < 4 ; c++){
             for (int r = 0; r < 4; r++){
                 if (controller.randomBoard[r][c] == 16){
-                    buttonsArray[r][c].setText(" ");
+                    buttonsArray[r][c].setText(" ");  //16th title is always blank
                 }
                 else {
                     buttonsArray[r][c].setText("" + controller.randomBoard[r][c]);
@@ -96,18 +122,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        //check if win
-
+        //check if all buttons are correctly placed after each move
+        if (controller.isBoardComplete()){
+            TextView title = findViewById(R.id.textTitle);
+            title.setText("15 SQUARES PUZZLE HAS BEEN SOLVED! :D");
+            title.setTextColor(Color.GREEN);
+        }
     }
 
+    /* onClick()
+     * this method handles all the user's clicks
+     * param: view
+     * return: none
+     */
     @Override
     public void onClick(View view) {
 
-        //ADD CALL TO check if board is solved in every switch case
         switch(view.getId()) {
+            //switch statement which gets the id of the button clicked
+            //and takes the appropriate corresponding action
+            case R.id.resetButton:
+                controller.buildBoard(); //rebuild the board when reset is called
+                updateButtons();  //update text of the buttons
+                break;
             case R.id.b1:
-                controller.move(0,0);
-                updateButtons();
+                controller.move(0,0);  //call move on the location of b1
+                updateButtons();  //update text of the buttons
                 break;
             case R.id.b2:
                 controller.move(0,1);
@@ -166,16 +206,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 updateButtons();
                 break;
             case R.id.bEmpty:
-                controller.move(3,3);
+                controller.move(3,3);  //will always evaluate to false
                 updateButtons();
                 break;
-            case R.id.resetButton:
-                //fix reset, doesnt currently change the board
-                int[][] newBoard = new int[4][4];
-                newBoard = controller.buildBoard();
-                controller.randomBoard = newBoard;
+            case R.id.bWin:
+                //allows the grader/user to quickly win the game by creating a board
+                //that is 1 move away from winning
+                controller.randomBoard = new int[][]{
+                        {1, 2, 3, 4},
+                        {5, 6, 7, 8},
+                        {9, 10, 11, 12},
+                        {13, 14, 16, 15}
+                };
                 updateButtons();
-                break;
         }
         }
     }
